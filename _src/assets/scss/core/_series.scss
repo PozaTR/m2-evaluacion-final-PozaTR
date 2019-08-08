@@ -4,9 +4,10 @@
 }
 
 .series__element {
-  width: 100px;
-  height: 150px;
+  width: 200px;
+  height: 250px;
   background-color:#BE3E82;
+  color: #fff;
   display:flex;
   justify-content: center;
   align-items:center;
@@ -16,8 +17,8 @@
 }
 
 .series__element__img {
-  width:100px;
-  height:150px;
+  width:150px;
+  height:200px;
   background-size:cover;
   background-repeat:no-repeat;
   background-position:center;
