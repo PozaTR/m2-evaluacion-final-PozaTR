@@ -1,15 +1,45 @@
 'use strict';
 
 const finder = document.querySelector('.js__finder__container');
-//const finder = document.querySelector('.js__finder__search');
 const seriesList = document.querySelector('.js__series__list');
 const input = document.querySelector('.js__finder__input');
 
 const favoriteList = document.querySelector('.series-favorite__list');
 
+//Si hay Stotage pintarlo y si no limpiar la página
 let favs = localStorage.getItem('favs')
   ? JSON.parse(localStorage.getItem('favs'))
   : [];
+
+//Buscar series en la Api
+function searchSeries(event) {
+  event.preventDefault();
+  const seriesSearch = input.value;
+  fetch(`http://api.tvmaze.com/search/shows?q=${seriesSearch}`)
+    .then(response => response.json())
+    .then(series => {
+
+      let arrSeries = [];
+
+      for (let serie of series) {
+        arrSeries.push({
+          id: serie.show.id,
+          title: serie.show.name,
+          image: serie.show.image
+            ? `url('${serie.show.image.medium}')`
+            : `url('https://via.placeholder.com/75x100.png?text=no+hay+imagen')`
+        });
+      }
+      createSeries(seriesList, arrSeries,'series__element');
+
+      const seriesElements = document.querySelectorAll('.series__element');
+
+      for (let serieElement of seriesElements) {
+        serieElement.addEventListener ('click', changeClass);
+      }
+
+    });
+}
 
 //Función pintar Elementos
 function createSeries(ol, series, className) {
@@ -62,40 +92,10 @@ function handleFavs(event) {
   localStorage.setItem('favs',JSON.stringify(favs));
 }
 
-//Buscar series en la Api
-function searchSeries(event) {
-  event.preventDefault();
-  const seriesSearch = input.value;
-  fetch(`http://api.tvmaze.com/search/shows?q=${seriesSearch}`)
-    .then(response => response.json())
-    .then(series => {
-
-      let arrSeries = [];
-
-      for (let serie of series) {
-        arrSeries.push({
-          id: serie.show.id,
-          title: serie.show.name,
-          image: serie.show.image
-            ? `url('${serie.show.image.medium}')`
-            : `url('https://via.placeholder.com/75x100.png?text=no+hay+imagen')`
-        });
-      }
-      createSeries(seriesList, arrSeries,'series__element');
-
-      const seriesElements = document.querySelectorAll('.series__element');
-
-      for (let serieElement of seriesElements) {
-        serieElement.addEventListener ('click', changeClass);
-      }
-
-    });
-}
-
+//Cambiar la clase de los elementos al guardarlos en favoritos
 function changeClass(event) {
   const element = event.currentTarget;
   element.classList.toggle('series__element--favorite');
-
 }
 
 finder.addEventListener('submit',searchSeries);
