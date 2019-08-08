@@ -6,10 +6,22 @@ const input = document.querySelector('.js__finder__input');
 
 const favoriteList = document.querySelector('.series-favorite__list');
 
+const resetFav = document.querySelector('.js__series-favourite__button');
+
 //Si hay Stotage pintarlo y si no limpiar la página
 let favs = localStorage.getItem('favs')
   ? JSON.parse(localStorage.getItem('favs'))
   : [];
+
+if(favs.length) {
+  resetFav.classList.remove('hidden');
+}
+
+//Cambiar la clase de los elementos al guardarlos en favoritos
+function changeClass(event) {
+  const element = event.currentTarget;
+  element.classList.toggle('series__element--favorite');
+}
 
 //Buscar series en la Api
 function searchSeries(event) {
@@ -36,13 +48,13 @@ function searchSeries(event) {
 
       for (let serieElement of seriesElements) {
         serieElement.addEventListener ('click', changeClass);
+        serieElement.addEventListener('click', handleFavs);
       }
-
     });
 }
 
 //Función pintar Elementos
-function createSeries(ol, series, className) {
+function createSeries(ol, series, className, hasButtons) {
 
   ol.innerHTML = '';
 
@@ -62,11 +74,18 @@ function createSeries(ol, series, className) {
     serieElement.appendChild(serieImage);
     serieElement.appendChild(serieTitle);
     ol.appendChild(serieElement);
-    serieElement.addEventListener('click', handleFavs);
+
+    if(hasButtons) {
+      const buttonRemoveSerie = document.createElement('button');
+      buttonRemoveSerie.classList.add('js__button__remove__serie');
+      buttonRemoveSerie.type = 'button';
+      buttonRemoveSerie.innerHTML = 'X';
+      buttonRemoveSerie.dataset['id'] = serie.id;
+      serieElement.appendChild(buttonRemoveSerie);
+      buttonRemoveSerie.addEventListener('click', handleFavs);
+    }
   }
 }
-
-createSeries(favoriteList,favs,'series-favorite__element');
 
 //Guardar en favoritos
 function handleFavs(event) {
@@ -87,16 +106,29 @@ function handleFavs(event) {
     favs.push({id, title, image});
   }
 
-  createSeries(favoriteList,favs,'series-favorite__element');
+  createSeries(favoriteList,favs,'series-favorite__element', true);
+
+  if (favs.length) {
+    resetFav.classList.remove('hidden');
+  } else {
+    resetFav.classList.add('hidden');
+  }
 
   localStorage.setItem('favs',JSON.stringify(favs));
 }
 
-//Cambiar la clase de los elementos al guardarlos en favoritos
-function changeClass(event) {
-  const element = event.currentTarget;
-  element.classList.toggle('series__element--favorite');
+//Reset favoritos
+function resetFavElements(){
+  resetFav.classList.add('hidden');
+  favoriteList.innerHTML = '';
+  favs = [];
+  localStorage.setItem('favs',JSON.stringify(favs));
 }
+
+
+createSeries(favoriteList,favs,'series-favorite__element', true);
+
+resetFav.addEventListener('click', resetFavElements);
 
 finder.addEventListener('submit',searchSeries);
 
