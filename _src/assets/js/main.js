@@ -27,7 +27,6 @@ function handleFavs(event) {
       favs.splice(index, 1);
     }
   }
-  console.log(favs);
 }
 
 
