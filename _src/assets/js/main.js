@@ -5,32 +5,21 @@ const finder = document.querySelector('.js__finder__search');
 const seriesList = document.querySelector('.js__series__list');
 const input = document.querySelector('.js__finder__input');
 
+const favoriteList = document.querySelector('.series-favorite__list');
+
 //Guardar en favoritos
 
 let favs = [];
 
 function handleFavs(event) {
-  let favoriteSeries = event.currentTarget.cloneNode(true);
   const item = event.currentTarget;
-  const name = item.querySelector.name
-  item.classList.toggle('series-favorite__element');
-  if (item.classList.contains('series-favorite__element')) {
-    // lo guardo en el array solo si no existe
-    if (favs.includes(name) === false) {
-      favs.push(name);
-    }
-  } else {
-    // lo quito del array
-    const index = favs.indexOf(name);
-    if (index > -1) {
-      favs.splice(index, 1);
-    }
-  }
+  const id = item.dataset['id'];
+  const title = item.querySelector('.series__element__title').innerHTML;
+  const image = item.querySelector('.series__element__img').style.backgroundImage;
+  favs.push({id, title, image});
+  console.log(favs);
 
-  favoriteSeries += ` <li class="series-favorite__element">
-  <div class="series__element__img" style="background-image:url('')"></div>
-  <p class="series-favorite__element__title"></p>
-</li>`;
+  item.classList.toggle('series-favorite__element');
 }
 
 
@@ -44,9 +33,7 @@ function searchSeries() {
       for (const serie of series) {
         const elementResult = document.createElement('li');
         elementResult.classList.add('series__element');
-        elementResult.classList.add('data-name');
-
-        //elementResult.dataset['id'] = serie.show.id;
+        elementResult.dataset['id'] = serie.show.id;
 
 
 
@@ -69,11 +56,7 @@ function searchSeries() {
         elementResult.appendChild(titleResult);
         seriesList.appendChild(elementResult);
 
-        const saveFavorites = document.querySelectorAll('.series__element');
-
-        for (let i=0;i<saveFavorites.length;i++) {
-          saveFavorites[i].addEventListener('click', handleFavs);
-        }
+        elementResult.addEventListener('click', handleFavs);
       }
     });
 }
@@ -83,6 +66,4 @@ searchSeries();
 finder.addEventListener('click',searchSeries);
 
 //Guardar en favoritos
-
-const favoriteListe = document.querySelector('.series-favorite__list');
 
