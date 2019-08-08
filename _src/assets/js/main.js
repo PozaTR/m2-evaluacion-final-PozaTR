@@ -1,7 +1,7 @@
 'use strict';
 
-//const finder = document.querySelector('.js__finder__container');
-const finder = document.querySelector('.js__finder__search');
+const finder = document.querySelector('.js__finder__container');
+//const finder = document.querySelector('.js__finder__search');
 const seriesList = document.querySelector('.js__series__list');
 const input = document.querySelector('.js__finder__input');
 
@@ -11,36 +11,37 @@ let favs = localStorage.getItem('favs')
   ? JSON.parse(localStorage.getItem('favs'))
   : [];
 
-//Pintar Favoritos
-function paintFavs() {
-  favoriteList.innerHTML = '';
+//Función pintar Elementos
+function createSeries(ol, series, className) {
 
-  for (const favSerie of favs) {
-    const favElementResult = document.createElement('li');
-    favElementResult.classList.add('series-favorite__element');
-    favElementResult.dataset['id'] = favSerie.id;
+  ol.innerHTML = '';
 
-    const favImageResult = document.createElement('div');
-    favImageResult.classList.add('series-favorite__element__img');
-    favImageResult.style.backgroundImage = favSerie.image;
+  for (const serie of series) {
+    const serieElement = document.createElement('li');
+    serieElement.classList.add(className);
+    serieElement.dataset['id'] = serie.id;
 
-    const favTitleResult = document.createElement('p');
-    favTitleResult.classList.add('series-favorite__element__title');
-    favTitleResult.innerHTML = favSerie.title;
+    const serieImage = document.createElement('div');
+    serieImage.classList.add(`${className}__img`);
+    serieImage.style.backgroundImage = serie.image;
 
-    favElementResult.appendChild(favImageResult);
-    favElementResult.appendChild(favTitleResult);
-    favoriteList.appendChild(favElementResult);
+    const serieTitle = document.createElement('p');
+    serieTitle.classList.add(`${className}__title`);
+    serieTitle.innerHTML = serie.title;
+
+    serieElement.appendChild(serieImage);
+    serieElement.appendChild(serieTitle);
+    ol.appendChild(serieElement);
+    serieElement.addEventListener('click', handleFavs);
   }
 }
-paintFavs();
+
+createSeries(favoriteList,favs,'series-favorite__element');
 
 //Guardar en favoritos
 function handleFavs(event) {
   const itemLi = event.currentTarget;
   const id = itemLi.dataset['id'];
-
-  itemLi.classList.toggle('series-favorite__element');
 
   function findSeriebyId(fav) {
     return fav.id === id;
@@ -56,49 +57,47 @@ function handleFavs(event) {
     favs.push({id, title, image});
   }
 
-  paintFavs();
+  createSeries(favoriteList,favs,'series-favorite__element');
 
   localStorage.setItem('favs',JSON.stringify(favs));
 }
 
 //Buscar series en la Api
-function searchSeries() {
+function searchSeries(event) {
+  event.preventDefault();
   const seriesSearch = input.value;
-  seriesList.innerHTML= '';
   fetch(`http://api.tvmaze.com/search/shows?q=${seriesSearch}`)
     .then(response => response.json())
     .then(series => {
-      for (const serie of series) {
-        const elementResult = document.createElement('li');
-        elementResult.classList.add('series__element');
-        elementResult.dataset['id'] = serie.show.id;
 
-        const imageResult = document.createElement('div');
-        imageResult.classList.add('series__element__img');
+      let arrSeries = [];
 
-        if (serie.show.image) {
-          imageResult.style.backgroundImage = `url('${serie.show.image.medium}')`;
-        }
-        else {
-          imageResult.style.backgroundImage = `url('https://via.placeholder.com/75x100.png?text=no+hay+imagen')`;
-        }
-
-        const titleResult = document.createElement('p');
-        titleResult.classList.add('series__element__title');
-        titleResult.innerHTML = serie.show.name;
-
-        elementResult.appendChild(imageResult);
-        elementResult.appendChild(titleResult);
-        seriesList.appendChild(elementResult);
-
-        elementResult.addEventListener('click', handleFavs);
+      for (let serie of series) {
+        arrSeries.push({
+          id: serie.show.id,
+          title: serie.show.name,
+          image: serie.show.image
+            ? `url('${serie.show.image.medium}')`
+            : `url('https://via.placeholder.com/75x100.png?text=no+hay+imagen')`
+        });
       }
+      createSeries(seriesList, arrSeries,'series__element');
+
+      const seriesElements = document.querySelectorAll('.series__element');
+
+      for (let serieElement of seriesElements) {
+        serieElement.addEventListener ('click', changeClass);
+      }
+
     });
 }
 
-searchSeries();
+function changeClass(event) {
+  const element = event.currentTarget;
+  element.classList.toggle('series__element--favorite');
 
-finder.addEventListener('click',searchSeries);
+}
 
-//Guardar en favoritos
+finder.addEventListener('submit',searchSeries);
+
 
