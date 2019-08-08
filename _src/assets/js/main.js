@@ -7,28 +7,12 @@ const input = document.querySelector('.js__finder__input');
 
 const favoriteList = document.querySelector('.series-favorite__list');
 
-//Guardar en favoritos
+let favs = localStorage.getItem('favs')
+  ? JSON.parse(localStorage.getItem('favs'))
+  : [];
 
-let favs = [];
-
-function handleFavs(event) {
-  const itemLi = event.currentTarget;
-  const id = itemLi.dataset['id'];
-
-  function findSeriebyId(fav) {
-    return fav.id === id;
-  }
-
-  const index = favs.findIndex(findSeriebyId);
-
-  if( index >= 0) {
-    favs.splice(index, 1);
-  } else {
-    const title = itemLi.querySelector('.series__element__title').innerHTML;
-    const image = itemLi.querySelector('.series__element__img').style.backgroundImage;
-    favs.push({id, title, image});
-  }
-
+//Pintar Favoritos
+function paintFavs() {
   favoriteList.innerHTML = '';
 
   for (const favSerie of favs) {
@@ -47,11 +31,35 @@ function handleFavs(event) {
     favElementResult.appendChild(favImageResult);
     favElementResult.appendChild(favTitleResult);
     favoriteList.appendChild(favElementResult);
-
   }
-  itemLi.classList.toggle('series-favorite__element');
 }
+paintFavs();
 
+//Guardar en favoritos
+function handleFavs(event) {
+  const itemLi = event.currentTarget;
+  const id = itemLi.dataset['id'];
+
+  itemLi.classList.toggle('series-favorite__element');
+
+  function findSeriebyId(fav) {
+    return fav.id === id;
+  }
+
+  const index = favs.findIndex(findSeriebyId);
+
+  if( index >= 0) {
+    favs.splice(index, 1);
+  } else {
+    const title = itemLi.querySelector('.series__element__title').innerHTML;
+    const image = itemLi.querySelector('.series__element__img').style.backgroundImage;
+    favs.push({id, title, image});
+  }
+
+  paintFavs();
+
+  localStorage.setItem('favs',JSON.stringify(favs));
+}
 
 //Buscar series en la Api
 function searchSeries() {
@@ -65,8 +73,6 @@ function searchSeries() {
         elementResult.classList.add('series__element');
         elementResult.dataset['id'] = serie.show.id;
 
-
-
         const imageResult = document.createElement('div');
         imageResult.classList.add('series__element__img');
 
@@ -76,7 +82,6 @@ function searchSeries() {
         else {
           imageResult.style.backgroundImage = `url('https://via.placeholder.com/75x100.png?text=no+hay+imagen')`;
         }
-
 
         const titleResult = document.createElement('p');
         titleResult.classList.add('series__element__title');
