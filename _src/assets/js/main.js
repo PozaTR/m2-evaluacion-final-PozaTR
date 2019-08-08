@@ -10,7 +10,6 @@ const input = document.querySelector('.js__finder__input');
 function searchSeries() {
   const seriesSearch = input.value;
   seriesList.innerHTML= '';
-  //const endpoint = `http://api.tvmaze.com/search/shows?q=${seriesSearch}`;
   fetch(`http://api.tvmaze.com/search/shows?q=${seriesSearch}`)
     .then(response => response.json())
     .then(series => {
@@ -21,7 +20,14 @@ function searchSeries() {
 
         const imageResult = document.createElement('div');
         imageResult.classList.add('series__element__img');
-        imageResult.style.backgroundImage = `url('${serie.show.image.medium}')`;
+
+        if (serie.show.image) {
+          imageResult.style.backgroundImage = `url('${serie.show.image.medium}')`;
+        }
+        else {
+          imageResult.style.backgroundImage = `url('https://via.placeholder.com/75x100.png?text=no+hay+imagen')`;
+        }
+
 
         const titleResult = document.createElement('p');
         titleResult.classList.add('series__element__title');
