@@ -19,6 +19,28 @@ function handleFavs(event) {
   favs.push({id, title, image});
   console.log(favs);
 
+  favoriteList.innerHTML = '';
+
+  for (const favSerie of favs) {
+    const favElementResult = document.createElement('li');
+    favElementResult.classList.add('series-favorite__element');
+    favElementResult.dataset['id'] = favSerie.id;
+
+    const favImageResult = document.createElement('div');
+    favImageResult.classList.add('series-favorite__element__img');
+    favImageResult.style.backgroundImage = favSerie.image;
+
+    const favTitleResult = document.createElement('p');
+    favTitleResult.classList.add('series-favorite__element__title');
+    favTitleResult.innerHTML = favSerie.title;
+
+    favElementResult.appendChild(favImageResult);
+    favElementResult.appendChild(favTitleResult);
+    favoriteList.appendChild(favElementResult);
+
+  }
+
+
   item.classList.toggle('series-favorite__element');
 }
 
