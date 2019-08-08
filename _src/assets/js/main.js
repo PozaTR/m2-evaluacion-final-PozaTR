@@ -12,12 +12,22 @@ const favoriteList = document.querySelector('.series-favorite__list');
 let favs = [];
 
 function handleFavs(event) {
-  const item = event.currentTarget;
-  const id = item.dataset['id'];
-  const title = item.querySelector('.series__element__title').innerHTML;
-  const image = item.querySelector('.series__element__img').style.backgroundImage;
-  favs.push({id, title, image});
-  console.log(favs);
+  const itemLi = event.currentTarget;
+  const id = itemLi.dataset['id'];
+
+  function findSeriebyId(fav) {
+    return fav.id === id;
+  }
+
+  const index = favs.findIndex(findSeriebyId);
+
+  if( index >= 0) {
+    favs.splice(index, 1);
+  } else {
+    const title = itemLi.querySelector('.series__element__title').innerHTML;
+    const image = itemLi.querySelector('.series__element__img').style.backgroundImage;
+    favs.push({id, title, image});
+  }
 
   favoriteList.innerHTML = '';
 
@@ -39,9 +49,7 @@ function handleFavs(event) {
     favoriteList.appendChild(favElementResult);
 
   }
-
-
-  item.classList.toggle('series-favorite__element');
+  itemLi.classList.toggle('series-favorite__element');
 }
 
 
