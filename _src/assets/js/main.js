@@ -39,7 +39,7 @@ function searchSeries(event) {
           title: serie.show.name,
           image: serie.show.image
             ? `url('${serie.show.image.medium}')`
-            : `url('https://via.placeholder.com/75x100.png?text=no+hay+imagen')`
+            : `url('https://via.placeholder.com/210x295/ffffff/666666/?text=TV')`
         });
       }
       createSeries(seriesList, arrSeries,'series__element');
