@@ -17,25 +17,38 @@
   border-radius: 4px;
   border: 2px solid #17202A;
   min-width: 300px;
+
+  &__title {
+    margin: 8px;
+    font-size: 16px;
+  }
+
+  &__img {
+    width:50px;
+    height:75px;
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-position:center;
+    margin: 8px;
+  }
 }
 
-.series-favorite__element__title {
-  margin: 8px;
-  font-size: 16px;
-}
 
-.series-favorite__element__img {
-  width:50px;
-  height:75px;
-  background-size:cover;
-  background-repeat:no-repeat;
-  background-position:center;
-  margin: 8px;
-}
+
+
 
 .button__remove__serie {
   width: 30px;
   height: 30px;
   margin:8px;
   border: 2px solid #17202A;
+}
+
+.series-favourite__button {
+  font-size: 16px;
+  border: 1px solid #17202A;
+  padding: 4px 6px;
+  border-radius: 4px;
+  box-shadow: 1px 1px 4px rgb(41, 41, 41);
+  margin:10px;
 }
