@@ -3,12 +3,9 @@
 const finder = document.querySelector('.js__finder__container');
 const seriesList = document.querySelector('.js__series__list');
 const input = document.querySelector('.js__finder__input');
-
 const favoriteList = document.querySelector('.series-favorite__list');
-
 const resetFav = document.querySelector('.js__series-favourite__button');
 
-//Si hay Stotage pintarlo y si no limpiar la página
 let favs = localStorage.getItem('favs')
   ? JSON.parse(localStorage.getItem('favs'))
   : [];
@@ -17,13 +14,11 @@ if(favs.length) {
   resetFav.classList.remove('hidden');
 }
 
-//Cambiar la clase de los elementos al guardarlos en favoritos
 function changeClass(event) {
   const element = event.currentTarget;
   element.classList.toggle('series__element--favorite');
 }
 
-//Buscar series en la Api
 function searchSeries(event) {
   event.preventDefault();
   const seriesSearch = input.value;
@@ -53,7 +48,6 @@ function searchSeries(event) {
     });
 }
 
-//Función pintar Elementos
 function createSeries(ol, series, className, hasButtons) {
 
   ol.innerHTML = '';
@@ -88,7 +82,6 @@ function createSeries(ol, series, className, hasButtons) {
   }
 }
 
-//Guardar en favoritos
 function handleFavs(event) {
   const itemLi = event.currentTarget;
   const id = itemLi.dataset['id'];
@@ -118,14 +111,12 @@ function handleFavs(event) {
   localStorage.setItem('favs',JSON.stringify(favs));
 }
 
-//Reset favoritos
 function resetFavElements(){
   resetFav.classList.add('hidden');
   favoriteList.innerHTML = '';
   favs = [];
   localStorage.setItem('favs',JSON.stringify(favs));
 }
-
 
 createSeries(favoriteList,favs,'series-favorite__element', true);
 
