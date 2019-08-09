@@ -1,0 +1,21 @@
+.finder__container {
+  display:flex;
+  padding:12px;
+}
+
+.finder__input {
+  font-size: 16px;
+  border: 1px solid #17202A;
+  padding:4px;
+  margin-right: 24px;
+  border-radius: 4px;
+  box-shadow: 1px 1px 4px rgb(41, 41, 41);
+}
+
+.finder__search {
+  font-size: 16px;
+  border: 1px solid #17202A;
+  padding: 4px 6px;
+  border-radius: 4px;
+  box-shadow: 1px 1px 4px rgb(41, 41, 41);
+}

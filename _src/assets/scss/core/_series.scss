@@ -1,7 +1,6 @@
 .series__list {
   display:flex;
   flex-wrap: wrap;
-  justify-content: center;
   align-items: center;
 }
 
@@ -15,7 +14,7 @@
   align-items:center;
   flex-direction:column;
   padding-top:10px;
-  margin:10px;
+  margin:12px 24px;
   border-radius: 4px;
   border: 2px solid #17202A;
   box-shadow: 1px 1px 4px gray;
@@ -28,12 +27,12 @@
     background-position:center;
   }
 
+  &__title {
+    margin-top:6px;
+  }
+}
 
 .series__element--favorite {
   background-color:#fefefe;
   color:#8E44AD;
-}
-
-.series__element__title {
-  margin-top:6px;
 }
