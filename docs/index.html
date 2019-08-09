@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+    
+    <head>
+        <meta charset="UTF-8">
+        <title>Ejercicio Evaluación</title>
+        <link rel="icon" href="favicon.png" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+        rel="stylesheet">
+        <link rel="stylesheet" href="assets/css/main.css">
+    </head>
+    
+    <body>
+        <header class="header">
+             <h1 class="header__title">Buscador de series</h1>
+
+        </header>
+        <main class="main__container">
+            <aside class="aside__container js__aside__container">
+                <form class="finder__container js__finder__container">
+                    <label for="series" class="finder__label"></label>
+                    <input type="text" class="finder__input js__finder__input" id="serie">
+                    <button class="finder__search js__finder__search" type="submit">Buscar</button>
+                </form>
+                 <h3 class="series-favorite__title">Series favoritas</h2>
+<ol class="series-favorite__list"></ol>
+<button class="series-favourite__button js__series-favourite__button hidden" type="button">Reset</button>
+
+</aside>
+
+    <section class="series">
+    <ol class="series__list js__series__list"></ol>
+</section>
+  </main>
+  <script src="assets/js/main.js"></script>
+</body>
+
+</html>
