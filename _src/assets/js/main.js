@@ -78,6 +78,7 @@ function createSeries(ol, series, className, hasButtons) {
     if(hasButtons) {
       const buttonRemoveSerie = document.createElement('button');
       buttonRemoveSerie.classList.add('js__button__remove__serie');
+      buttonRemoveSerie.classList.add('button__remove__serie');
       buttonRemoveSerie.type = 'button';
       buttonRemoveSerie.innerHTML = 'X';
       buttonRemoveSerie.dataset['id'] = serie.id;

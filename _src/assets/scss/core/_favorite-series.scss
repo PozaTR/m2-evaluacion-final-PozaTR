@@ -7,12 +7,21 @@
 
 .series-favorite__element {
   display:flex;
-  justify-content:center;
-  align-items:center;
-  color:#BE3E82;
-  background-color:#fff;
+  align-items: flex-start;
+  justify-content: space-between;
+  color: #fefefe ;
+  background-color:rgb(47, 11, 63);
   padding-top:10px;
   margin:10px;
+  padding:8px;
+  border-radius: 4px;
+  border: 2px solid #17202A;
+  min-width: 300px;
+}
+
+.series-favorite__element__title {
+  margin: 8px;
+  font-size: 16px;
 }
 
 .series-favorite__element__img {
@@ -21,5 +30,12 @@
   background-size:cover;
   background-repeat:no-repeat;
   background-position:center;
-  margin-right:8px;
+  margin: 8px;
+}
+
+.button__remove__serie {
+  width: 30px;
+  height: 30px;
+  margin:8px;
+  border: 2px solid #17202A;
 }
